@@ -76,8 +76,10 @@ class PlanningMaker:
             event["summary"] = task.summary
             event["description"] = task.description
             event_start, event_end = self.schedule_event(task.duration)
+            self.scheduled_events.append((event_start, event_end))
             event["start"]["datetime"] = event_start.isoformat() + 'Z'
             event["end"]["datetime"] = event_end.isoformat() + 'Z'
+            event_list.append(event)
         return event_list
 
 

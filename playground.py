@@ -94,12 +94,17 @@ def main():
         test_planmaker.fill_in_scheduled_events(exclusion_times)
         test_schedule = test_planmaker.schedule_event(60)
         print(test_schedule)
-        #print(test_planmaker.busy_slots)
-        end = (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).isoformat() + 'Z'
+
+        task = {"description": "this is a task"}
+        print(task.description)
+        # print(test_planmaker.busy_slots)
+
+        # end = (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).isoformat() + 'Z'
         # print(end)
 
 
-        calendar_list = service.calendarList().list().execute()
+        # calendar_list = service.calendarList().list().execute()
+
         # print(calendar_list)
         # for calendar in calendar_list.get('items', []):
         #    print(calendar["summary"])
