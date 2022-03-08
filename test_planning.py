@@ -1,4 +1,4 @@
-from planning import Planning
+from planning_maker import Planning
 from datetime import timedelta, datetime
 
 
