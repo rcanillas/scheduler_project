@@ -1,18 +1,8 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import random
 
 random.seed(123)
-event_template = {
-            'summary': 'Test',
-            'description': 'Testing the Google Calendar API',
-            'start': {
-                'dateTime': "test_start",
-            },
-            'end': {
-                'dateTime': "test_end",
-            },
-            }
 
 
 class PlanningMaker:
@@ -24,9 +14,8 @@ class PlanningMaker:
         target_week_day = "1"
         str_week_format = ":".join([target_week_year, target_week_number, target_week_day])
         #print(str_week_format)
-        # TODO: Get the user timedelta for timezone
         self.target_week_start = datetime.strptime(str_week_format, "%G:%V:%u").replace(tzinfo=user_timezone)
-        print(self.target_week_start.tzinfo)
+        #print(self.target_week_start.tzinfo)
         #print(self.target_week_start)
         self.target_week_end = self.target_week_start + relativedelta(weeks=1)
         #print(self.target_week_end)
@@ -38,7 +27,6 @@ class PlanningMaker:
         self.scheduled_events = scheduled_events
 
     def check_planning_availability(self, event_start, event_end):
-        """TODO: test all possible cases !"""
         event_ok = True
         for scheduled_event in self.scheduled_events:
             # print(scheduled_event[0].strftime(format="%Y-%m-%dT%H:%M:%S"),scheduled_event[1].strftime(format="%Y-%m-%dT%H:%M:%S"))
@@ -63,7 +51,6 @@ class PlanningMaker:
         event_min = random.choice([0, 30])
         event_start = self.target_week_start + relativedelta(days=event_day, hours=event_hour, minutes=event_min)
         event_end = event_start + relativedelta(minutes=duration)
-        # print(event_start, event_end)
         if not self.check_planning_availability(event_start, event_end):
             print("checking new timeslot")
             event_start, event_end = self.schedule_event(duration, attempt+1)
@@ -72,14 +59,16 @@ class PlanningMaker:
     def generate_events_from_tasks(self, task_list):
         event_list = []
         for task in task_list:
-            event = event_template.copy()
-            event["summary"] = task.summary
-            event["description"] = task.description
+            event = {"summary": task.summary, "description": task.description, "start": {}, 'end': {}}
             event_start, event_end = self.schedule_event(task.duration)
             self.scheduled_events.append((event_start, event_end))
-            event["start"]["datetime"] = event_start.isoformat() + 'Z'
-            event["end"]["datetime"] = event_end.isoformat() + 'Z'
+            # print(event_start, event_end)
+            # print(event_start.isoformat(), event_end.isoformat())
+            event["start"]["dateTime"] = event_start.isoformat()
+            event["end"]["dateTime"] = event_end.isoformat()
+            # print(event)
             event_list.append(event)
+            task.scheduled_time = event_start
         return event_list
 
 

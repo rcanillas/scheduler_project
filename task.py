@@ -1,22 +1,37 @@
 import uuid
+import random
+from datetime import datetime, timedelta
 
 
 class Task:
-    def __init__(self, name, user, duration, desc="", task_type="OTHER"):
+    def __init__(self, summary, duration, description="", task_type="OTHER"):
         self.uid = uuid.uuid4()
-        self.task_name = name
-        self.user = user
-        self.desc = desc
+        self.summary = summary
+        self.description = description + f"\nTask_ID: {self.uid}"
         self.task_type = task_type
-        self.start_time = None
         self.duration = duration
-        self.end_time = None
-        self.scheduled = False
+        self.scheduled_time = None
+        self.completed = False
 
-    def schedule_task(self, scheduled_time):
-        self.start_time = scheduled_time
-        self.end_time = self.start_time + self.duration
-        self.scheduled = True
+    def get_scheduled_time(self):
+        if self.scheduled_time is None:
+            print("Task not scheduled")
+            raise "Task not scheduled"
+        else:
+            return self.scheduled_time, self.scheduled_time + timedelta(minutes=self.duration)
+
+
+class BucketList:
+    def __init__(self):
+        self.task_list = []
+
+    def add_task(self, task):
+        self.task_list.append({"task_id": task.uid, "task": task, "created_date": datetime.now()})
+
+    def remove_task(self, task_id):
+        for task_dict in self.task_list:
+            if task_dict["task_id"] == task_id:
+                self.task_list.remove(task_dict)
 
 
 if __name__ == '__main__':
