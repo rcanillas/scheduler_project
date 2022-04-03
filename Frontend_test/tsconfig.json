@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "module": "amd"
+    },
+    "files": [
+        "./typings/index.d.ts",
+        "./typescript/main.ts",
+        "./typescript/require-config.ts"
+    ]
+}
