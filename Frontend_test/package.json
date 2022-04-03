@@ -9,6 +9,7 @@
   "author": "remi.canillas@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "knockout": "^3.5.1"
+    "knockout": "^3.5.1",
+    "requirejs": "^2.3.6"
   }
 }
