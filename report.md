@@ -40,3 +40,11 @@ Workflow is as follows:
 TODO today:
  - Think about clent app design
  - Start implementing "real" workflow
+
+## Session 14/05
+renamed main.py to app.py 
+
+TODO today:
+- front: modify time selection widget to increment every "full turn"
+- back: retrieve event send from front and add it to weely list 
+- back: find out how to trigger scheduling function every day
