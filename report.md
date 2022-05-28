@@ -45,6 +45,14 @@ TODO today:
 renamed main.py to app.py 
 
 TODO today:
-- front: modify time selection widget to increment every "full turn"
+- ~~front: modify time selection widget to increment every "full turn"~~
 - back: retrieve event send from front and add it to weely list 
 - back: find out how to trigger scheduling function every day
+
+## Session 28/05
+Goal: finish the flow v1
+Required TODO:
+- Trigger the scheduling
+
+Optional TODO: 
+- Flesh up testing

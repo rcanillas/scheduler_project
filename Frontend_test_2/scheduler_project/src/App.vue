@@ -8,14 +8,15 @@ onMounted(() => {
 });
 
 function postTask() {
-  let task = { taskName: task_name.value, taskDuration: selected_time_in_min };
-  console.log(task)
+  let task_time_in_min = hour_var.value * 60 + Math.floor(selected_time_in_min);
+  let task = { taskName: task_name.value, taskDuration: task_time_in_min };
+  console.log(task);
   axios.post("http://localhost:5000", task);
 }
 
 function getValueString(selected_time_in_min) {
   let value_string;
-  let hour_value = Math.floor(selected_time_in_min / 60);
+  let hour_value = hour_var.value;
   let minutes_value = Math.floor(selected_time_in_min % 60);
   if (hour_value > 0) {
     value_string =
@@ -40,7 +41,8 @@ function mouseCapture(e) {
     angle.value = Math.floor(
       360 - (Math.atan2(d_x, d_y) * (180 / Math.PI) + 180)
     );
-    console.log("Dx:" + d_x + " Dy:" + d_y + " Angle: " + angle.value);
+    //console.log("Dx:" + d_x + " Dy:" + d_y + " Angle: " + angle.value);
+    //console.log("Dx:" + d_x + " Dy:" + d_y + " Angle: " + angle.value);
     update_circle(angle);
   }
 }
@@ -53,10 +55,24 @@ function update_circle(angle) {
     0,
     angle.value
   );
-  console.log(circle_path.value);
+  //console.log(circle_path.value);
+  const range_hour = [15, 345];
   circle_quotient = angle.value / 360;
+  console.log("angle_prev: ", angle_prev.value);
+  console.log("current_angle: ", angle.value);
+  if (range_hour[1] <= angle_prev.value && angle.value <= range_hour[0]) {
+    console.log("match +");
+    hour_var.value += 1;
+  }
+  if (angle_prev.value <= range_hour[0] && range_hour[1] <= angle.value) {
+    console.log("match -");
+    hour_var.value -= 1;
+  }
+  hour_var.value = Math.max(0, hour_var.value);
+  console.log("hours: ", hour_var.value);
   selected_time_in_min = max_time_in_min * circle_quotient;
   value_string.value = getValueString(selected_time_in_min);
+  angle_prev.value = angle.value;
 }
 
 function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
@@ -100,6 +116,8 @@ function timeFromInputString(e) {
 
 const circle_radius = 150;
 let angle = ref(270);
+const angle_prev = ref(angle.value);
+const hour_var = ref(0);
 let circle_path = ref(
   describeArc(
     circle_radius,
@@ -110,7 +128,7 @@ let circle_path = ref(
   )
 );
 
-const max_time_in_min = 120;
+const max_time_in_min = 60;
 let circle_quotient = angle.value / 360;
 let selected_time_in_min = max_time_in_min * circle_quotient;
 let value_string = ref(getValueString(selected_time_in_min));
@@ -121,6 +139,7 @@ let circle = ref(null);
 const task_label = ref("What do I want to do ?");
 const task_name = ref("");
 const time_label = ref("How long do I want to do it ?");
+
 </script>
 
 <template>

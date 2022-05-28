@@ -1,7 +1,8 @@
+bin/
+
 #js files
 typings/
 node_modules/
-
 # cred files
 token.json
 credentials.json
