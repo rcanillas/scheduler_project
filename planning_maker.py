@@ -6,19 +6,22 @@ random.seed(123)
 
 
 class PlanningMaker:
-
     def __init__(self, sleep_time, wake_up_time, user_timezone):
         next_week_date = datetime.now() + relativedelta(weeks=1)
         target_week_number = next_week_date.strftime(format="%V")
         target_week_year = str(next_week_date.year)
         target_week_day = "1"
-        str_week_format = ":".join([target_week_year, target_week_number, target_week_day])
-        #print(str_week_format)
-        self.target_week_start = datetime.strptime(str_week_format, "%G:%V:%u").replace(tzinfo=user_timezone)
-        #print(self.target_week_start.tzinfo)
-        #print(self.target_week_start)
+        str_week_format = ":".join(
+            [target_week_year, target_week_number, target_week_day]
+        )
+        # print(str_week_format)
+        self.target_week_start = datetime.strptime(str_week_format, "%G:%V:%u").replace(
+            tzinfo=user_timezone
+        )
+        # print(self.target_week_start.tzinfo)
+        # print(self.target_week_start)
         self.target_week_end = self.target_week_start + relativedelta(weeks=1)
-        #print(self.target_week_end)
+        # print(self.target_week_end)
         self.sleep_time = sleep_time
         self.wake_up_time = wake_up_time
         self.scheduled_events = []
@@ -34,8 +37,8 @@ class PlanningMaker:
             s_start = scheduled_event[0]
             s_end = scheduled_event[1]
             # First case : proposed event inside scheduled event:
-            event_start_inside = (s_start <= event_start <= s_end)
-            event_end_inside = (s_start <= event_end <= s_end)
+            event_start_inside = s_start <= event_start <= s_end
+            event_end_inside = s_start <= event_end <= s_end
             scheduled_is_inside = (s_start > event_start) & (s_end < event_end)
             # print(event_start_inside, event_end_inside, scheduled_is_inside)
             if event_start_inside or event_end_inside or scheduled_is_inside:
@@ -47,19 +50,28 @@ class PlanningMaker:
         if max_attempt > 3:
             raise "Too many tries"
         event_day = random.choice(range(0, 8))
-        event_hour = random.choice(range(self.wake_up_time, self.sleep_time-int(duration/60)-1))
+        event_hour = random.choice(
+            range(self.wake_up_time, self.sleep_time - int(duration / 60) - 1)
+        )
         event_min = random.choice([0, 30])
-        event_start = self.target_week_start + relativedelta(days=event_day, hours=event_hour, minutes=event_min)
+        event_start = self.target_week_start + relativedelta(
+            days=event_day, hours=event_hour, minutes=event_min
+        )
         event_end = event_start + relativedelta(minutes=duration)
         if not self.check_planning_availability(event_start, event_end):
             print("checking new timeslot")
-            event_start, event_end = self.schedule_event(duration, attempt+1)
+            event_start, event_end = self.schedule_event(duration, attempt + 1)
         return event_start, event_end
 
     def generate_events_from_tasks(self, task_list):
         event_list = []
         for task in task_list:
-            event = {"summary": task.summary, "description": task.description, "start": {}, 'end': {}}
+            event = {
+                "summary": task.summary,
+                "description": task.description,
+                "start": {},
+                "end": {},
+            }
             event_start, event_end = self.schedule_event(task.duration)
             self.scheduled_events.append((event_start, event_end))
             # print(event_start, event_end)
@@ -72,6 +84,7 @@ class PlanningMaker:
         return event_list
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import pytest
+
     pytest.main()

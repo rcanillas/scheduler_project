@@ -7,7 +7,7 @@ class User:
         self.name = name
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import pytest
-    pytest.main()
 
+    pytest.main()

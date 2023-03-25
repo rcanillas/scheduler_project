@@ -3,9 +3,13 @@ from dateutil.relativedelta import relativedelta
 
 
 class PreferenceAnalyzer:
-
-    def __init__(self, task_type="All", night_start=time(hour=22, minute=0, second=0),
-                 day_start=time(hour=7, minute=0, second=0), timeslot_duration=30):
+    def __init__(
+        self,
+        task_type="All",
+        night_start=time(hour=22, minute=0, second=0),
+        day_start=time(hour=7, minute=0, second=0),
+        timeslot_duration=30,
+    ):
         timeslot = datetime.strptime("2012:01:1", "%G:%V:%u")
         timeslot_end = timeslot + relativedelta(weeks=1)
         self.preference_dict = {}
@@ -17,8 +21,8 @@ class PreferenceAnalyzer:
             else:
                 self.preference_dict[timeslot.strftime(format="%u-%H:%M")] = None
             timeslot += relativedelta(minutes=timeslot_duration)
-        #print(len(self.preference_dict))
-        #print(self.preference_dict)
+        # print(len(self.preference_dict))
+        # print(self.preference_dict)
 
     def update_timeslots(self, task_list):
         for task in task_list:
@@ -36,7 +40,7 @@ class PreferenceAnalyzer:
                     print(self.preference_dict[timeslot_key])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import pytest
-    pytest.main()
 
+    pytest.main()

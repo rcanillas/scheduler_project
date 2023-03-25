@@ -3,7 +3,6 @@ from datetime import timedelta, datetime
 
 
 class TestScheduler:
-
     def test_init(self):
         return
 

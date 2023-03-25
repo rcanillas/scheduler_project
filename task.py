@@ -18,7 +18,9 @@ class Task:
             print("Task not scheduled")
             raise "Task not scheduled"
         else:
-            return self.scheduled_time, self.scheduled_time + timedelta(minutes=self.duration)
+            return self.scheduled_time, self.scheduled_time + timedelta(
+                minutes=self.duration
+            )
 
 
 class BucketList:
@@ -26,7 +28,9 @@ class BucketList:
         self.task_list = []
 
     def add_task(self, task):
-        self.task_list.append({"task_id": task.uid, "task": task, "created_date": datetime.now()})
+        self.task_list.append(
+            {"task_id": task.uid, "task": task, "created_date": datetime.now()}
+        )
 
     def remove_task(self, task_id):
         for task_dict in self.task_list:
@@ -34,6 +38,7 @@ class BucketList:
                 self.task_list.remove(task_dict)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import pytest
+
     pytest.main()
