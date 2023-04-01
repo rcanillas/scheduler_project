@@ -1,0 +1,45 @@
+<SchedulingFrame>:
+    canvas:
+        Color: 
+            rgba: 0.7, 0.7, 0.7, 1  
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            
+    Label:
+        font_size : 50
+        center_x : root.width / 2
+        top: root.top - 10
+        text: "Create an event"
+
+    Label:
+        id: time_feedback
+        font_size : 20
+        center_x : root.width / 2
+        top: root.top / 3 + self.height / 2 + 50
+        text: str(int(time_slider.value))+" min"
+
+    Slider:
+        id: time_slider
+        min:10
+        max:120
+        value:30
+        width : root.width / 2
+        center_x : root.width / 2
+        top: root.top / 3 + self.height / 2
+    
+    TextInput:
+        id: name_input
+        font_size : 20
+        width : root.width / 2
+        center_x : root.width / 2
+        top: 2 * root.top / 3 + self.height / 2
+        text: 'my event name here !'
+    
+    Button:
+        id : schedule_button
+        width : root.width / 2
+        center_x : root.width / 2
+        top: root.top - (root.height - root.height/5)
+        text: "Schedule it !"
+        on_press: root.schedule_event()

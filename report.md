@@ -59,3 +59,8 @@ Optional TODO:
 
 ## session 30/05 
 Continue working on task scheduling
+
+## Session 25/03/2023
+Implement new front with kyvi
+- event adding page 
+- event listing page ? 
